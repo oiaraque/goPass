@@ -26,11 +26,12 @@ const getUser = async(req,res,next)=>{
 }
 
 const createUser = async(req,res,next)=>{
-	const { name, email, password } = req.body
+	const { name, documento, email, password } = req.body
 	try {
 		const result = await db.query(
-		'INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *',[
+		'INSERT INTO users (name, documento, email, password) VALUES ($1, $2, $3 ,$4) RETURNING *',[
 		name,
+		documento,
 		email,
 		password
 	]);
@@ -58,9 +59,9 @@ const deleteUser = async(req,res,next)=>{
 const updateUser = async(req,res,next)=>{
 	try{
 		const {id} = req.params
-		const {name, email, password} = req.body
-		const result = await db.query('UPDATE users SET name = $1, email = $2, password = $3 WHERE id = $4', 
-		[name, email, password, id]
+		const {name, documento, email, password} = req.body
+		const result = await db.query('UPDATE users SET name = $1, documento = $2, email = $3, password = $4 WHERE id = $5', 
+		[name, documento, email, password, id]
 	);
 	 	if(result.rowCount === 0)
 		return res.status(404).json({
